@@ -50,3 +50,6 @@ qq-pet-macos/build_*_Conflict/
 # 备份文件
 *.bak
 docs/
+
+# 本地启动脚本（Windows 开发用，按需自行提交）
+启动QQ宠物.bat

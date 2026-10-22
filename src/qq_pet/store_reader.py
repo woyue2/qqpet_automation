@@ -23,7 +23,8 @@ def find_store_path(custom_path: str = "") -> Path:
     """定位 electron-store 数据文件
 
     优先使用自定义路径，否则按平台检测默认位置。
-    应用名: "pet"，文件名: "config.json"
+    macOS / Windows 移植版: 应用名 "qq-pet-macos"，文件名 "config-macos.json"（明文）
+    原版: 应用名 "pet"，文件名 "config.json"（AES 加密）
     """
     if custom_path:
         p = Path(custom_path)
@@ -33,8 +34,11 @@ def find_store_path(custom_path: str = "") -> Path:
 
     system = platform.system()
     if system == "Windows":
-        app_data = os.environ.get("APPDATA", "")
+        app_data = os.environ.get("APPDATA") or str(Path.home() / "AppData" / "Roaming")
         candidates = [
+            # Windows 移植版（明文，无加密）
+            Path(app_data) / "qq-pet-macos" / "config-macos.json",
+            # 原版路径
             Path(app_data) / "pet" / "config.json",
             Path(app_data) / "pet" / "configDev.json",
         ]
